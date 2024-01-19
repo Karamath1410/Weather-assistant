@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Assistant</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script defer src="./app.js"></script>
+    <style>
+        *{
+            margin:0px;
+            padding:0;
+            box-sizing: border-box;
+        }
+
+        html{
+            font-family:'Montserrat';
+            font-size: 20px;
+            background-color: white;
+            color:black;
+        }
+
+        #button_id{
+            width:100px;
+            height:30px;
+            margin:15px 40px 40px 20px;
+            display: flex;
+            padding:5px 5px 15px 25px;
+            border-color: black;
+            background-color: black;
+            color:white;
+            border-radius: 5px;
+        }
+        #gen_output{
+            width:500px;
+            height: 10px;
+            margin:20px 40px 40px 20px;
+            display:flex;
+        }
+        #map{
+            width:1000px;
+            height:250px;
+            margin:25px 20px 10px 250px;
+            display: flex;
+            border:2px solid black;
+        }
+        .output_id{
+            width:1400px;
+            height:500px;
+            display:inline-block;
+            margin:30px 40px 40px 40px;
+            border:5px solid black;
+            background-color: black;
+            color:white;
+            justify-content: center;
+            align-items: center;
+        }
+        #today_temp_id_0{
+            width:300px;
+            height:30px;
+            margin:10px 0px 0px 10px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #today_temp_id{
+            width:50px;
+            height:30px;
+            display: inline-block;
+            margin:10px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #location_id_0{
+            width:110px;
+            height:30px;
+            margin:10px 0px 0px 30px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #location_id{
+            width:150px;
+            height:30px;
+            display: inline-block;
+            margin:10px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #latitude_id_0{
+            width:110px;
+            height:30px;
+            margin:10px 0px 0px 50px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #latitude_id{
+            width:120px;
+            height:30px;
+            display: inline-block;
+            margin:10px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #longitude_id_0{
+            width:110px;
+            height:30px;
+            margin:10px 0px 0px 70px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #longitude_id{
+            width:120px;
+            height:30px;
+            display: inline-block;
+            margin:10px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #state_id_0{
+            width:110px;
+            height:30px;
+            margin:30px 0px 0px 10px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #state_id{
+            width:200px;
+            height:30px;
+            display: inline-block;
+            margin:30px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+
+        #country_id_0{
+            width:110px;
+            height:30px;
+            margin:30px 0px 0px 30px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #country_id{
+            width:120px;
+            height:30px;
+            display: inline-block;
+            margin:30px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #population_id_0{
+            width:110px;
+            height:30px;
+            margin:30px 0px 0px 50px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #population_id{
+            width:120px;
+            height:30px;
+            display: inline-block;
+            margin:30px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #timezone_id_0{
+            width:110px;
+            height:30px;
+            margin:30px 0px 0px 70px;
+            display: inline-block;
+            border:2px solid black;
+            background-color: navy;
+            color: white;
+            padding: 2px 2px 5px 15px;
+            border-radius: 5px;
+        }
+        #timezone_id{
+            width:200px;
+            height:30px;
+            display: inline-block;
+            margin:30px 0px 0px 10px;
+            border:2px solid black;
+            background-color: tomato;
+            color: white;
+            padding:2px 2px 5px 10px;
+            border-radius: 5px;
+        }
+        #day-1{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-2{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-3{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-4{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-5{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-6{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-7{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-8{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-9{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #day-10{
+                width:200px;
+                height:30px;
+                margin:50px 0px 0px 30px;
+                display:table-cell;
+                border:2px solid black;
+                background-color: white;
+                border-radius: 5px;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #evapotranspiration_id_0{
+                width:230px;
+                height:30px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #evapotranspiration_id1{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id2{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id3{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id4{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id5{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id6{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id7{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id8{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id9{
+                padding:2px 5px 15px 50px;
+        }
+        #evapotranspiration_id10{
+                padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #precipitation_sum_id1{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id2{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id3{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id4{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id5{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id6{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id7{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id8{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id9{
+            padding:2px 5px 15px 50px;
+        }
+        #precipitation_sum_id10{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #rain_sum_id1{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id2{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id3{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id4{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id5{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id6{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id7{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id8{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id9{
+            padding:2px 5px 15px 50px;
+        }
+        #rain_sum_id10{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #snow_sum_id1{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id2{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id3{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id4{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id5{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id6{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id7{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id8{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id9{
+            padding:2px 5px 15px 50px;
+        }
+        #snow_sum_id10{
+            padding:2px 5px 15px 50px;
+        }
+        #temperature_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #temperature_id1{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id2{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id3{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id4{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id5{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id6{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id7{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id8{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id9{
+                padding:2px 5px 15px 50px;
+        }
+        #temperature_id10{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #uv_index_id1{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id2{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id3{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id4{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id5{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id6{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id7{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id8{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id9{
+                padding:2px 5px 15px 50px;
+        }
+        #uv_index_id10{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #wind_dir_id1{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id2{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id3{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id4{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id5{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id6{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id7{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id8{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id9{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_dir_id10{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #wind_gusts_id1{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id2{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id3{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id4{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id5{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id6{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id7{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id8{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id9{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_gusts_id10{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id_0{
+                width:230px;
+                height:25px;
+                border:2px solid black;
+                display:flex;
+                background-color: white;
+                color:black;
+                padding:2px 5px 5px 10px;
+        }
+        #wind_speed_id1{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id2{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id3{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id4{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id5{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id6{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id7{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id8{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id9{
+                padding:2px 5px 15px 50px;
+        }
+        #wind_speed_id10{
+                padding:2px 5px 15px 50px;
+        }
+    </style>
+</head>
+<body>
+    <button type="button" id="button_id">Search</button>
+    <p id="gen_output"></p>
+    <input type="hidden" placeholder="location" id="generating_text_id" autocomplete="off">
+    <div id="map"></div>
+    <div class="output_id">
+        <p id="today_temp_id_0"><b>Temperature(in Celsius)</b>
+        <p span id="today_temp_id"></p>
+        <p id="location_id_0"><b>Location<b>
+        <p span id="location_id"></p>
+        <p id="latitude_id_0"><b>Latitude<b>
+        <p span id="latitude_id"></p>
+        <p id="longitude_id_0"><b>Longitude<b>
+        <p id="longitude_id"></p>
+        <p id="state_id_0"><b>State<b>
+        <p id="state_id"></p>
+        <p id="country_id_0"><b>Country<b>
+        <p id="country_id"></p>
+        <p id="population_id_0"><b>Population<b>
+        <p id="population_id"></p>
+        <p id="timezone_id_0"><b>TimeZone<b>
+        <p id="timezone_id"></p><br>
+        <table>
+                <tr>
+                    <td></td>
+                    <td id="day-1">Day-1</td>
+                    <td id="day-2">Day-2</td>
+                    <td id="day-3">Day-3</td>
+                    <td id="day-4">Day-4</td>
+                    <td id="day-5">Day-5</td>
+                    <td id="day-6">Day-6</td>
+                    <td id="day-7">Day-7</td>
+                    <td id="day-8">Day-8</td>
+                    <td id="day-9">Day-9</td>
+                    <td id="day-10">Day-10</td>
+                </tr>
+                <tr>
+                    <td id="evapotranspiration_id_0">Evapotranspiration(mm)</td>
+                    <td id="evapotranspiration_id1"></td>
+                    <td id="evapotranspiration_id2"></td>
+                    <td id="evapotranspiration_id3"></td>
+                    <td id="evapotranspiration_id4"></td>
+                    <td id="evapotranspiration_id5"></td>
+                    <td id="evapotranspiration_id6"></td>
+                    <td id="evapotranspiration_id7"></td>
+                    <td id="evapotranspiration_id8"></td>
+                    <td id="evapotranspiration_id9"></td>
+                    <td id="evapotranspiration_id10"></td>
+                </tr>
+                <tr>
+                    <td id="precipitation_sum_id_0">Precipitation (mm)</td>
+                    <td id="precipitation_sum_id1"></td>
+                    <td id="precipitation_sum_id2"></td>
+                    <td id="precipitation_sum_id3"></td>
+                    <td id="precipitation_sum_id4"></td>
+                    <td id="precipitation_sum_id5"></td>
+                    <td id="precipitation_sum_id6"></td>
+                    <td id="precipitation_sum_id7"></td>
+                    <td id="precipitation_sum_id8"></td>
+                    <td id="precipitation_sum_id9"></td>
+                    <td id="precipitation_sum_id10"></td>
+                </tr>
+                <tr>
+                    <td id="rain_sum_id_0">Rainfall(mm)</td>
+                    <td id="rain_sum_id1"></td>
+                    <td id="rain_sum_id2"></td>
+                    <td id="rain_sum_id3"></td>
+                    <td id="rain_sum_id4"></td>
+                    <td id="rain_sum_id5"></td>
+                    <td id="rain_sum_id6"></td>
+                    <td id="rain_sum_id7"></td>
+                    <td id="rain_sum_id8"></td>
+                    <td id="rain_sum_id9"></td>
+                    <td id="rain_sum_id10"></td>
+                </tr>
+                <tr>
+                    <td id="snow_sum_id_0">Snowfall (cm)</td>
+                    <td id="snow_sum_id1"></td>
+                    <td id="snow_sum_id2"></td>
+                    <td id="snow_sum_id3"></td>
+                    <td id="snow_sum_id4"></td>
+                    <td id="snow_sum_id5"></td>
+                    <td id="snow_sum_id6"></td>
+                    <td id="snow_sum_id7"></td>
+                    <td id="snow_sum_id8"></td>
+                    <td id="snow_sum_id9"></td>
+                    <td id="snow_sum_id10"></td>
+                </tr>
+                <tr>
+                    <td id="temperature_id_0">Temperature (<sup>o</sup>C)</td>
+                    <td id="temperature_id1"></td>
+                    <td id="temperature_id2"></td>
+                    <td id="temperature_id3"></td>
+                    <td id="temperature_id4"></td>
+                    <td id="temperature_id5"></td>
+                    <td id="temperature_id6"></td>
+                    <td id="temperature_id7"></td>
+                    <td id="temperature_id8"></td>
+                    <td id="temperature_id9"></td>
+                    <td id="temperature_id10"></td>
+                </tr>
+                <tr>
+                    <td id="uv_index_id_0">UV Index</td>
+                    <td id="uv_index_id1"></td>
+                    <td id="uv_index_id2"></td>
+                    <td id="uv_index_id3"></td>
+                    <td id="uv_index_id4"></td>
+                    <td id="uv_index_id5"></td>
+                    <td id="uv_index_id6"></td>
+                    <td id="uv_index_id7"></td>
+                    <td id="uv_index_id8"></td>
+                    <td id="uv_index_id9"></td>
+                    <td id="uv_index_id10"></td>
+
+                </tr>
+                <tr>
+                    <td id="wind_dir_id_0">Wind Direction <sup>o</sup></td>
+                    <td id="wind_dir_id1"></td>
+                    <td id="wind_dir_id2"></td>
+                    <td id="wind_dir_id3"></td>
+                    <td id="wind_dir_id4"></td>
+                    <td id="wind_dir_id5"></td>
+                    <td id="wind_dir_id6"></td>
+                    <td id="wind_dir_id7"></td>
+                    <td id="wind_dir_id8"></td>
+                    <td id="wind_dir_id9"></td>
+                    <td id="wind_dir_id10"></td>
+                </tr>
+                <tr>
+                    <td id="wind_gusts_id_0">Wind Gusts (Km/hr)</td>
+                    <td id="wind_gusts_id1"></td>
+                    <td id="wind_gusts_id2"></td>
+                    <td id="wind_gusts_id3"></td>
+                    <td id="wind_gusts_id4"></td>
+                    <td id="wind_gusts_id5"></td>
+                    <td id="wind_gusts_id6"></td>
+                    <td id="wind_gusts_id7"></td>
+                    <td id="wind_gusts_id8"></td>
+                    <td id="wind_gusts_id9"></td>
+                    <td id="wind_gusts_id10"></td>
+                </tr>
+                <tr>
+                    <td id="wind_speed_id_0">Wind Speed (Km/hr)</td>
+                    <td id="wind_speed_id1"></td>
+                    <td id="wind_speed_id2"></td>
+                    <td id="wind_speed_id3"></td>
+                    <td id="wind_speed_id4"></td>
+                    <td id="wind_speed_id5"></td>
+                    <td id="wind_speed_id6"></td>
+                    <td id="wind_speed_id7"></td>
+                    <td id="wind_speed_id8"></td>
+                    <td id="wind_speed_id9"></td>
+                    <td id="wind_speed_id10"></td>
+                </tr>
+        </table>
+        <!--
+
+        <p id="evapotranspiration_id_0"><b>Evapotranspiration<b></b>
+        <p id="evapotranspiration_id"></p>
+
+        -->
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+<script>
+    //    weather-assistant.azurewebsites.net
+
+//hbs-->handlebars which are template engines
+
+var inputSearch = document.querySelector("#generating_text_id").value;
+
+var content = document.querySelector("#gen_output");
+
+var btn = document.querySelector("#button_id");
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+const recognition = new SpeechRecognition();
+
+recognition.onresult = (event)=>{
+
+    const transcript = event.results[0][0].transcript;
+
+    content.textContent = transcript;
+
+    speakThis(transcript.toLowerCase());
+}
+
+recognition.onerror = (event)=>{
+    console.log("error occurred", event.error);
+}
+
+btn.addEventListener('click',()=>{
+    recognition.start();
+})
+
+function speak(sentence){
+    const text_speak = new SpeechSynthesisUtterance(sentence);
+
+    text_speak.rate = 1;
+
+    text_speak.volume = 2;
+
+    text_speak.pitch = 1;
+
+    window.speechSynthesis.speak(text_speak);
+}
+
+function speakThis(message){
+
+    const speech = new SpeechSynthesisUtterance();
+
+    speech.text = "can not generate the weather information about that location";
+    
+    if(message.includes('hello')){
+        const finalText = "Hello boss good morning!";
+
+        speech.text = finalText;
+
+        speech.volume = 2;
+
+        speech.pitch = 1;
+
+        speech.rate = 1;
+
+        window.speechSynthesis.speak(speech);
+    }
+
+    else if(message.includes(`show me ${inputSearch}`)){
+
+        const location_name = `${message.split(' ').pop()}`;
+
+        location_name.replace(/\.$/, '');
+
+
+        //console.log(location_name);
+
+        var str = location_name;
+
+        str.replace(/^[\s.]+|[\s.]+$/g,"");
+
+        if (str.endsWith(".")) {
+            str = str.slice(0, -1);
+          }
+        //console.log(str);
+
+        const finalText = `Getting details about ${location_name}`;
+
+        document.getElementById("generating_text_id").innerHTML = inputSearch;
+
+        async function getWeather()
+        {
+
+            var api_url_1 = `https://geocoding-api.open-meteo.com/v1/search?name=${str}&count=1&language=en&format=json`;
+
+            //console.log(api_url_1);
+            
+            var response_1 = await fetch(api_url_1);
+
+            var json_data_1 = await response_1.json();
+
+            //console.log(json_data_1);
+
+            //console.log(json_data_1.results[0]);
+
+            var results = json_data_1.results[0];
+
+            var {latitude,longitude,admin1,country,population,timezone} = results;
+
+            console.log(latitude);
+
+            console.log(longitude);
+
+            console.log(admin1);
+
+            console.log(country);
+
+            console.log(population);
+
+            console.log(timezone);
+
+            document.querySelector("#location_id").textContent = str;
+
+            document.querySelector("#latitude_id").textContent = latitude;
+
+            document.querySelector("#longitude_id").textContent = longitude;
+
+            document.querySelector("#state_id").textContent = admin1;
+
+            document.querySelector("#country_id").textContent = country;
+
+            document.querySelector("#population_id").textContent = population;
+
+            document.querySelector("#timezone_id").textContent = timezone;
+
+            var api_url_2 = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weathercode,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,snowfall_sum,precipitation_probability_max,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant,et0_fao_evapotranspiration&timezone=Asia%2FSingapore&past_days=3`;
+
+            var response_2 = await fetch(api_url_2);
+
+            var json_data_2 = await response_2.json();
+
+            console.log(json_data_2);
+
+            var output_2 = json_data_2.daily;
+
+            var {et0_fao_evapotranspiration,precipitation_sum,rain_sum,snowfall_sum,sunrise
+,sunset,temperature_2m_min,time,uv_index_max,winddirection_10m_dominant,windgusts_10m_max,windspeed_10m_max} = output_2;
+
+            console.log(output_2);
+
+            //document.querySelector("#evapotranspiration_id").textContent = et0_fao_evapotranspiration;
+
+            document.querySelector("#evapotranspiration_id1").textContent = et0_fao_evapotranspiration[0];
+            document.querySelector("#evapotranspiration_id2").textContent = et0_fao_evapotranspiration[1];
+            document.querySelector("#evapotranspiration_id3").textContent = et0_fao_evapotranspiration[2];
+            document.querySelector("#evapotranspiration_id4").textContent = et0_fao_evapotranspiration[3];
+            document.querySelector("#evapotranspiration_id5").textContent = et0_fao_evapotranspiration[4];
+            document.querySelector("#evapotranspiration_id6").textContent = et0_fao_evapotranspiration[5];
+            document.querySelector("#evapotranspiration_id7").textContent = et0_fao_evapotranspiration[6];
+            document.querySelector("#evapotranspiration_id8").textContent = et0_fao_evapotranspiration[7];
+            document.querySelector("#evapotranspiration_id9").textContent = et0_fao_evapotranspiration[8];
+            document.querySelector("#evapotranspiration_id10").textContent = et0_fao_evapotranspiration[9];
+
+
+            //document.querySelector("#precipitation_sum_id").textContent = precipitation_sum;
+
+            document.querySelector("#precipitation_sum_id1").textContent = precipitation_sum[0];
+            document.querySelector("#precipitation_sum_id2").textContent = precipitation_sum[1];
+            document.querySelector("#precipitation_sum_id3").textContent = precipitation_sum[2];
+            document.querySelector("#precipitation_sum_id4").textContent = precipitation_sum[3];
+            document.querySelector("#precipitation_sum_id5").textContent = precipitation_sum[4];
+            document.querySelector("#precipitation_sum_id6").textContent = precipitation_sum[5];
+            document.querySelector("#precipitation_sum_id7").textContent = precipitation_sum[6];
+            document.querySelector("#precipitation_sum_id8").textContent = precipitation_sum[7];
+            document.querySelector("#precipitation_sum_id9").textContent = precipitation_sum[8];
+            document.querySelector("#precipitation_sum_id10").textContent = precipitation_sum[9];
+
+            //document.querySelector("#rain_sum_id").textContent = rain_sum;
+
+            document.querySelector("#rain_sum_id1").textContent = rain_sum[0];
+            document.querySelector("#rain_sum_id2").textContent = rain_sum[1];
+            document.querySelector("#rain_sum_id3").textContent = rain_sum[2];
+            document.querySelector("#rain_sum_id4").textContent = rain_sum[3];
+            document.querySelector("#rain_sum_id5").textContent = rain_sum[4];
+            document.querySelector("#rain_sum_id6").textContent = rain_sum[5];
+            document.querySelector("#rain_sum_id7").textContent = rain_sum[6];
+            document.querySelector("#rain_sum_id8").textContent = rain_sum[7];
+            document.querySelector("#rain_sum_id9").textContent = rain_sum[8];
+            document.querySelector("#rain_sum_id10").textContent = rain_sum[9];
+
+            //document.querySelector("#snow_sum_id").textContent = snowfall_sum;
+
+            document.querySelector("#snow_sum_id1").textContent = snowfall_sum[0];
+            document.querySelector("#snow_sum_id2").textContent = snowfall_sum[1];
+            document.querySelector("#snow_sum_id3").textContent = snowfall_sum[2];
+            document.querySelector("#snow_sum_id4").textContent = snowfall_sum[3];
+            document.querySelector("#snow_sum_id5").textContent = snowfall_sum[4];
+            document.querySelector("#snow_sum_id6").textContent = snowfall_sum[5];
+            document.querySelector("#snow_sum_id7").textContent = snowfall_sum[6];
+            document.querySelector("#snow_sum_id8").textContent = snowfall_sum[7];
+            document.querySelector("#snow_sum_id9").textContent = snowfall_sum[8];
+            document.querySelector("#snow_sum_id10").textContent = snowfall_sum[9];
+
+            //document.querySelector("#sunrise_id").textContent = sunrise;
+
+            //document.querySelector("#sunset_id").textContent = sunset;
+
+            //document.querySelector("#temperature_id").textContent = temperature_2m_min;
+
+            document.querySelector("#temperature_id1").textContent = temperature_2m_min[0];
+            document.querySelector("#temperature_id2").textContent = temperature_2m_min[1];
+            document.querySelector("#temperature_id3").textContent = temperature_2m_min[2];
+            document.querySelector("#temperature_id4").textContent = temperature_2m_min[3];
+            document.querySelector("#temperature_id5").textContent = temperature_2m_min[4];
+            document.querySelector("#temperature_id6").textContent = temperature_2m_min[5];
+            document.querySelector("#temperature_id7").textContent = temperature_2m_min[6];
+            document.querySelector("#temperature_id8").textContent = temperature_2m_min[7];
+            document.querySelector("#temperature_id9").textContent = temperature_2m_min[8];
+            document.querySelector("#temperature_id10").textContent = temperature_2m_min[9];
+
+            document.querySelector("#today_temp_id").textContent = temperature_2m_min[3];
+
+            //document.querySelector("#time_id").textContent = time;
+
+            //document.querySelector("#uv_index_id").textContent = uv_index_max;
+
+            document.querySelector("#uv_index_id1").textContent = uv_index_max[0];
+            document.querySelector("#uv_index_id2").textContent = uv_index_max[1];
+            document.querySelector("#uv_index_id3").textContent = uv_index_max[2];
+            document.querySelector("#uv_index_id4").textContent = uv_index_max[3];
+            document.querySelector("#uv_index_id5").textContent = uv_index_max[4];
+            document.querySelector("#uv_index_id6").textContent = uv_index_max[5];
+            document.querySelector("#uv_index_id7").textContent = uv_index_max[6];
+            document.querySelector("#uv_index_id8").textContent = uv_index_max[7];
+            document.querySelector("#uv_index_id9").textContent = uv_index_max[8];
+            document.querySelector("#uv_index_id10").textContent = uv_index_max[9];
+
+            document.querySelector("#wind_dir_id1").textContent = winddirection_10m_dominant[0];
+            document.querySelector("#wind_dir_id2").textContent = winddirection_10m_dominant[1];
+            document.querySelector("#wind_dir_id3").textContent = winddirection_10m_dominant[2];
+            document.querySelector("#wind_dir_id4").textContent = winddirection_10m_dominant[3];
+            document.querySelector("#wind_dir_id5").textContent = winddirection_10m_dominant[4];
+            document.querySelector("#wind_dir_id6").textContent = winddirection_10m_dominant[5];
+            document.querySelector("#wind_dir_id7").textContent = winddirection_10m_dominant[6];
+            document.querySelector("#wind_dir_id8").textContent = winddirection_10m_dominant[7];
+            document.querySelector("#wind_dir_id9").textContent = winddirection_10m_dominant[8];
+            document.querySelector("#wind_dir_id10").textContent = winddirection_10m_dominant[9];
+
+            document.querySelector("#wind_gusts_id1").textContent = windgusts_10m_max[0];
+            document.querySelector("#wind_gusts_id2").textContent = windgusts_10m_max[1];
+            document.querySelector("#wind_gusts_id3").textContent = windgusts_10m_max[2];
+            document.querySelector("#wind_gusts_id4").textContent = windgusts_10m_max[3];
+            document.querySelector("#wind_gusts_id5").textContent = windgusts_10m_max[4];
+            document.querySelector("#wind_gusts_id6").textContent = windgusts_10m_max[5];
+            document.querySelector("#wind_gusts_id7").textContent = windgusts_10m_max[6];
+            document.querySelector("#wind_gusts_id8").textContent = windgusts_10m_max[7];
+            document.querySelector("#wind_gusts_id9").textContent = windgusts_10m_max[8];
+            document.querySelector("#wind_gusts_id10").textContent = windgusts_10m_max[9];
+
+
+            document.querySelector("#wind_speed_id1").textContent = windspeed_10m_max[0];
+            document.querySelector("#wind_speed_id2").textContent = windspeed_10m_max[1];
+            document.querySelector("#wind_speed_id3").textContent = windspeed_10m_max[2];
+            document.querySelector("#wind_speed_id4").textContent = windspeed_10m_max[3];
+            document.querySelector("#wind_speed_id5").textContent = windspeed_10m_max[4];
+            document.querySelector("#wind_speed_id6").textContent = windspeed_10m_max[5];
+            document.querySelector("#wind_speed_id7").textContent = windspeed_10m_max[6];
+            document.querySelector("#wind_speed_id8").textContent = windspeed_10m_max[7];
+            document.querySelector("#wind_speed_id9").textContent = windspeed_10m_max[8];
+            document.querySelector("#wind_speed_id10").textContent = windspeed_10m_max[9];
+
+            console.log(latitude);
+            console.log(longitude);
+
+            var map = L.map('map').setView([51.505, -0.09], 13);
+            var marker;
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+
+            function geocodeLocation() 
+            {
+                  var location = str;
+                  var marker;
+                  // Make a request to the Nominatim Geocoding API
+                  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`)
+                  .then(response => response.json())
+                  .then(data => {
+                  if (data.length > 0) 
+                  {
+                        var latitude = parseFloat(data[0].lat);
+                        var longitude = parseFloat(data[0].lon);
+
+                        // Remove existing marker (if any)
+                        if (marker) 
+                        {
+                            map.removeLayer(marker);
+                        }
+
+                        // Create a marker at the geocoded location
+                        marker = L.marker([latitude, longitude]).addTo(map);
+                        map.setView([latitude, longitude], 13);
+                  } 
+                  else 
+                  {
+                        alert('Location not found.');
+                  }
+                })
+                .catch(error => {
+                    console.error('Geocoding error:', error);
+                });
+            }
+
+            geocodeLocation();
+
+            function voiceOver()
+            {
+
+            var finalText = `The weather in ${str} is displayed below`;
+
+            var finalText = `The temperature is ${temperature_2m_min[3]} degree celsius in ${str}`;
+
+            speech.text = finalText;
+
+            speech.volume = 5;
+
+            speech.pitch = 1;
+
+            speech.rate = 1;
+
+            window.speechSynthesis.speak(speech);
+            }
+
+            voiceOver();
+
+        } 
+
+
+        getWeather();
+
+        console.log("Outside the function for location name"+str);
+
+        speech.text = finalText;
+
+        speech.volume = 5;
+
+        speech.pitch = 1;
+
+        speech.rate = 1;
+
+        window.speechSynthesis.speak(speech);
+
+    }
+    
+}
+
+
+
+</script>
+</html>
